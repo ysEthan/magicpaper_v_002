@@ -1,0 +1,89 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div class="container-xl">
+    <div class="row row-cards">
+        <div class="col-12">
+            <form method="post" enctype="multipart/form-data" class="card">
+                {% csrf_token %}
+                <div class="card-header">
+                    <h3 class="card-title">{{ page_title }}</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label required">{{ form.category_name_zh.label }}</label>
+                                {{ form.category_name_zh }}
+                                {% if form.category_name_zh.errors %}
+                                    <div class="invalid-feedback">{{ form.category_name_zh.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label required">{{ form.category_name_en.label }}</label>
+                                {{ form.category_name_en }}
+                                {% if form.category_name_en.errors %}
+                                    <div class="invalid-feedback">{{ form.category_name_en.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">{{ form.description.label }}</label>
+                                {{ form.description }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">{{ form.parent.label }}</label>
+                                {{ form.parent }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">{{ form.rank_id.label }}</label>
+                                {{ form.rank_id }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">{{ form.status.label }}</label>
+                                {{ form.status }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label">{{ form.image.label }}</label>
+                                {{ form.image }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <a href="{% url 'gallery:category_list' %}" class="btn btn-link">返回</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

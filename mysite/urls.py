@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='home'),
     path('muggle/', include('muggle.urls')),  # 添加用户认证相关的URL
+    path('gallery/', include('gallery.urls')),  # 添加gallery相关的URL
 ]
 
 

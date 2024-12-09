@@ -56,34 +56,15 @@
                             <div class="invalid-feedback">{{ form.parent.errors.0 }}</div>
                             {% endif %}
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label required">层级</label>
-                            {{ form.level }}
-                            {% if form.level.errors %}
-                            <div class="invalid-feedback">{{ form.level.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label required">排序ID</label>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">排序ID</label>
                             {{ form.rank_id }}
                             {% if form.rank_id.errors %}
                             <div class="invalid-feedback">{{ form.rank_id.errors.0 }}</div>
                             {% endif %}
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">是否最后一级</label>
-                            <div>
-                                {{ form.is_last_level }}
-                            </div>
-                            {% if form.is_last_level.errors %}
-                            <div class="invalid-feedback">{{ form.is_last_level.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label required">状态</label>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">状态</label>
                             {{ form.status }}
                             {% if form.status.errors %}
                             <div class="invalid-feedback">{{ form.status.errors.0 }}</div>
@@ -92,7 +73,12 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">分类图片</label>
+                        <label class="form-label">图片</label>
+                        {% if category and category.image %}
+                        <div class="mb-2">
+                            <img src="{{ category.image.url }}" alt="{{ category.category_name_zh }}" style="max-height: 100px;">
+                        </div>
+                        {% endif %}
                         {{ form.image }}
                         {% if form.image.errors %}
                         <div class="invalid-feedback">{{ form.image.errors.0 }}</div>
@@ -113,6 +99,9 @@
 {% block extra_css %}
 <style>
     .form-control.is-invalid {
+        display: block;
+    }
+    .invalid-feedback {
         display: block;
     }
 </style>

@@ -1,0 +1,103 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div class="container-xl">
+    <div class="row row-cards">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ page_title }}</h3>
+                    <div class="card-actions">
+                        <a href="{% url 'gallery:category_create' %}" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                            添加分类
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-vcenter card-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>图片</th>
+                                    <th>中文名称</th>
+                                    <th>英文名称</th>
+                                    <th>层级</th>
+                                    <th>排序</th>
+                                    <th>状态</th>
+                                    <th class="w-1">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                <tr>
+                                    <td>{{ category.id }}</td>
+                                    <td>
+                                        {% if category.image %}
+                                        <img src="{{ category.image.url }}" alt="{{ category.category_name_zh }}" style="max-height: 50px;">
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ category.category_name_zh }}</td>
+                                    <td>{{ category.category_name_en }}</td>
+                                    <td>{{ category.level }}</td>
+                                    <td>{{ category.rank_id }}</td>
+                                    <td>
+                                        {% if category.status == 1 %}
+                                        <span class="badge bg-success">启用</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">禁用</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-list flex-nowrap">
+                                            <a href="{% url 'gallery:category_edit' category.id %}" class="btn btn-icon btn-primary" title="编辑">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                            </a>
+                                            <a href="{% url 'gallery:category_delete' category.id %}" class="btn btn-icon btn-danger" title="删除">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% for child in category.children.all %}
+                                <tr>
+                                    <td>{{ child.id }}</td>
+                                    <td>
+                                        {% if child.image %}
+                                        <img src="{{ child.image.url }}" alt="{{ child.category_name_zh }}" style="max-height: 50px;">
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding-left: {{ child.level|add:"1" }}em;">└─ {{ child.category_name_zh }}</td>
+                                    <td>{{ child.category_name_en }}</td>
+                                    <td>{{ child.level }}</td>
+                                    <td>{{ child.rank_id }}</td>
+                                    <td>
+                                        {% if child.status == 1 %}
+                                        <span class="badge bg-success">启用</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">禁用</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-list flex-nowrap">
+                                            <a href="{% url 'gallery:category_edit' child.id %}" class="btn btn-icon btn-primary" title="编辑">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                            </a>
+                                            <a href="{% url 'gallery:category_delete' child.id %}" class="btn btn-icon btn-danger" title="删除">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

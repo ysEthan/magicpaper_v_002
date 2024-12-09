@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import Category
 
-# Register your models here.
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'category_name_zh', 'category_name_en', 'level', 
+                   'parent', 'rank_id', 'is_last_level', 'status']
+    list_filter = ['level', 'is_last_level', 'status']
+    search_fields = ['category_name_zh', 'category_name_en']
+    ordering = ['rank_id', 'id']
