@@ -45,12 +45,7 @@
                             {{ form.username }}
                         </div>
                         <div class="mb-2">
-                            <label class="form-label">
-                                密码
-                                <span class="form-label-description">
-                                    <a href="{% url 'muggle:password_reset' %}">忘记密码？</a>
-                                </span>
-                            </label>
+                            <label class="form-label">密码</label>
                             {{ form.password }}
                         </div>
                         <div class="form-footer">
@@ -58,9 +53,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="text-center text-muted mt-3">
-                还没有账号？ <a href="{% url 'muggle:register' %}" tabindex="-1">立即注册</a>
             </div>
         </div>
     </div>
