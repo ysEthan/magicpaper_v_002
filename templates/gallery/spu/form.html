@@ -1,0 +1,123 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-xl">
+    <div class="page-header d-print-none">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 class="page-title">{{ title }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        请检查表单中的错误并重新提交。
+                    </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required">SPU编码</label>
+                            {% if form.instance.pk %}
+                            <div class="input-group">
+                                {{ form.spu_code }}
+                                <span class="input-group-text bg-azure-lt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
+                                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
+                                        <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="text-muted small mt-1">SPU编码创建后不可修改</div>
+                            {% else %}
+                            {{ form.spu_code }}
+                            {% endif %}
+                            {% if form.spu_code.errors %}
+                            <div class="invalid-feedback">{{ form.spu_code.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required">SPU名称</label>
+                            {{ form.spu_name }}
+                            {% if form.spu_name.errors %}
+                            <div class="invalid-feedback">{{ form.spu_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required">销售渠道</label>
+                            {{ form.sales_channel }}
+                            {% if form.sales_channel.errors %}
+                            <div class="invalid-feedback">{{ form.sales_channel.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required">所属类目</label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                            <div class="invalid-feedback">{{ form.category.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">SPU备注</label>
+                        {{ form.spu_remark }}
+                        {% if form.spu_remark.errors %}
+                        <div class="invalid-feedback">{{ form.spu_remark.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+                        <a href="{% url 'gallery:spu_list' %}" class="btn btn-link">返回列表</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-control.is-invalid {
+        display: block;
+    }
+    .form-control[readonly] {
+        background-color: #f1f5f9;
+        cursor: not-allowed;
+        border-color: #d9dbde;
+    }
+    .input-group-text.bg-azure-lt {
+        background-color: #e7f2f8;
+        color: #0054a6;
+        border-color: #d9dbde;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 为所有表单控件添加必要的类
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea, select').forEach(function(el) {
+        if (el.closest('.invalid-feedback')) {
+            el.classList.add('is-invalid');
+        }
+    });
+});
+</script>
+{% endblock %} 
